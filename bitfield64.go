@@ -7,7 +7,6 @@ Methods are stateless and free from side-effects. It was designed to be
 chainable so error reporting is omitted: you need to make sure position is
 in the range of [0, 63]
 */
-
 package bitfield64
 
 import (
