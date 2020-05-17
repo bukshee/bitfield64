@@ -6,9 +6,9 @@ import (
 
 func TestPos(t *testing.T) {
 	got := []int{0, -1, -64, 3, 65}
-	wants := []uint64{0, 63, 0, 3, 1}
+	wants := []uint64{1 << 0, 1 << 63, 1 << 0, 1 << 3, 1 << 1}
 	for i, p := range got {
-		if posMod(p) != wants[i] {
+		if posToBitMask(p) != BitField64(wants[i]) {
 			t.Errorf("got %d, wants %d", p, wants[i])
 		}
 	}
