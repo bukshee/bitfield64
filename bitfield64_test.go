@@ -4,6 +4,16 @@ import (
 	"testing"
 )
 
+func TestPos(t *testing.T) {
+	got := []int{0, -1, -64, 3, 65}
+	wants := []uint64{0, 63, 0, 3, 1}
+	for i, p := range got {
+		if posMod(p) != wants[i] {
+			t.Errorf("got %d, wants %d", p, wants[i])
+		}
+	}
+}
+
 func Test1(t *testing.T) {
 	bf1 := New().SetAll().Clear(3)
 	if bf1.OnesCount() != 63 {
@@ -32,5 +42,8 @@ func Test1(t *testing.T) {
 
 	if New().SetAll().ClearAll().OnesCount() != 0 {
 		t.Error("should be zero")
+	}
+	if New().Set(-63-64) != 2 {
+		t.Error("should be 2")
 	}
 }
