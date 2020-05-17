@@ -1,6 +1,4 @@
-![Release](https://img.shields.io/github/v/release/bukshee/bitfield64)
 ![Coverage](https://img.shields.io/badge/coverage-100%25-green)
-![Downloads](https://img.shields.io/github/downloads/bukshee/bitfield64/total)
 
 # bitfield64
 Bitfield for up to 64bits in length
