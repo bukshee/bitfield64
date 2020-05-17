@@ -1,3 +1,9 @@
+
+![License](https://img.shields.io/github/license/bukshee/bitfield64)
+![Release](https://img.shields.io/github/v/release/bukshee/bitfield64)
+[![Go Report Card](https://goreportcard.com/badge/github.com/bukshee/bitfield64)](https://goreportcard.com/report/github.com/bukshee/bitfield64)
+![Downloads](https://img.shields.io/github/downloads/bukshee/bitfield64/total)
+
 # bitfield64
 Bitfield for up to 64bits in length
 
@@ -10,9 +16,3 @@ from side-effects. It was designed to be chainable so error reporting is
 omitted: you need to make sure position is in the range of [0, 63]
 
 For usage see test file.
-
-## Badges
-
-![License](https://img.shields.io/github/license/bukshee/bitfield64)
-![Release](https://img.shields.io/github/v/release/bukshee/bitfield64)
-![Downloads](https://img.shields.io/github/downloads/bukshee/bitfield64/total)
