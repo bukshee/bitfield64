@@ -14,5 +14,5 @@ For usage see test file.
 ## Badges
 
 ![License](https://img.shields.io/github/license/bukshee/bitfield64)
-![Version](https://img.shields.io/github/manifest-json/v/bukshee/bitfield64)
+![Release](https://img.shields.io/github/v/release/bukshee/bitfield64)
 ![Downloads](https://img.shields.io/github/downloads/bukshee/bitfield64/total)
