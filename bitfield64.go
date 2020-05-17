@@ -29,7 +29,7 @@ func (bf64 BitField64) Set(pos int) BitField64 {
 
 // Get returns true if bit at position pos is set, false otherwise
 func (bf64 BitField64) Get(pos int) bool {
-	return bf64&(1<<uint64(pos%64)) == 1
+	return bf64&(1<<uint64(pos%64)) > 0
 }
 
 // Clear clears the bit at position pos

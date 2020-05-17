@@ -15,6 +15,9 @@ func Test1(t *testing.T) {
 	if bf1.Get(3) {
 		t.Error("should be false")
 	}
+	if !bf1.Get(17) {
+		t.Error("should be true")
+	}
 	bf2 := New().Set(3).Set(1).Clear(5).Or(New().Set(4))
 
 	if bf2.OnesCount() != 3 {
