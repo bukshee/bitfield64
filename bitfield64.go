@@ -49,6 +49,14 @@ func (bf64 BitField64) Clear(pos int) BitField64 {
 	return bf64 & ^posToBitMask(pos)
 }
 
+// Flip inverts the bit at position pos
+func (bf64 BitField64) Flip(pos int) BitField64 {
+	if bf64.Get(pos) {
+		return bf64.Clear(pos)
+	}
+	return bf64.Set(pos)
+}
+
 // SetAll returns a bitfield where all 64 bits are set
 func (bf64 BitField64) SetAll() BitField64 {
 	return math.MaxUint64

@@ -46,4 +46,11 @@ func Test1(t *testing.T) {
 	if New().Set(-63-64) != 2 {
 		t.Error("should be 2")
 	}
+
+	if New().Flip(3) != 8 {
+		t.Error("shoud be 8")
+	}
+	if New().Flip(4).Flip(4) != 0 {
+		t.Error("should be 0")
+	}
 }
