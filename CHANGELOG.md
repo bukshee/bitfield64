@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Right
 - Mid
 
+## [1.1.0] - 2020-05-23
+### Added
+- Flip
+
 ## [1.0.0] - 2020-05-17
 
 First release.
