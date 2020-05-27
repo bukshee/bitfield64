@@ -56,7 +56,7 @@ func Test1(t *testing.T) {
 }
 
 func Test2(t *testing.T) {
-	a := New().Set(1).Set(3)
+	a := New().SetMul(1, 3)
 	if a.Mid(0, 4).OnesCount() != 2 {
 		t.Error("should be 2")
 	}
@@ -69,7 +69,7 @@ func Test2(t *testing.T) {
 	if a.Mid(4, 5).OnesCount() != 0 {
 		t.Error("should be 0")
 	}
-	a = New().Set(0).Set(1).Set(4)
+	a = New().SetMul(0, 1, 4)
 	if a.Left(4).OnesCount() != 2 {
 		t.Error("should be 2")
 	}
@@ -109,10 +109,69 @@ func Test2(t *testing.T) {
 	if a.Get(0) {
 		t.Error("should be false")
 	}
+
+	a = New().SetAll().ClearMul(0, -1)
+	if a.Get(0) || a.Get(-1) || a.OnesCount() != 62 {
+		t.Error("ClearMul fails")
+	}
+
 	defer func() {
 		if r := recover(); r == nil {
 			t.Errorf("The code did not panic")
 		}
 	}()
 	New().Mid(0, -1)
+}
+
+func TestShift2(t *testing.T) {
+
+	orig := New().SetMul(0, -1)
+
+	// case 0
+	a, b := orig.Shift2(0)
+	if a != orig && b != 0 {
+		t.Error("Shift2(0) should leave values intact")
+	}
+
+	// case 0 < n  < 64
+	a, b = orig.Shift2(1)
+	if !a.Get(1) {
+		t.Error("Shift2(1): 'a' should be true")
+	}
+	if !b.Get(0) {
+		t.Error("Shift2(1): 'b' should be true")
+	}
+
+	// case -63 < n  < 0
+	a, b = orig.Shift2(-1)
+	if a != New().Set(62) {
+		t.Error("Shift2(1): 'a' should be true")
+	}
+	if b != New().Set(63) {
+		t.Error("Shift2(1): 'b' should be true")
+	}
+
+	// case n = 64
+	a, b = orig.Shift2(64)
+	if a.OnesCount() != 0 || b != orig {
+		t.Error("Should be 0 and same")
+	}
+	// case n = -64
+	a, b = orig.Shift2(-64)
+	if a.OnesCount() != 0 || b != orig {
+		t.Error("Should be 0 and same")
+	}
+
+	// case n > 64
+	a, b = orig.Shift2(65)
+	if a != 0 || b != 0 {
+		t.Error("'a' and 'b should be 0")
+	}
+
+	// case n < -64
+	a, b = orig.Shift2(-65)
+	if a != 0 || b != 0 {
+		t.Error("'a' and 'b should be 0")
+	}
+
 }

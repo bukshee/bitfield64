@@ -45,6 +45,15 @@ func (bf64 BitField64) Set(pos int) BitField64 {
 	return bf64 | posToBitMask(pos)
 }
 
+// SetMul sets the bits at position pos
+func (bf64 BitField64) SetMul(pos ...int) BitField64 {
+	ret := BitField64(0)
+	for _, p := range pos {
+		ret |= posToBitMask(p)
+	}
+	return ret
+}
+
 // Get returns true if bit at position pos is set, false otherwise
 func (bf64 BitField64) Get(pos int) bool {
 	return bf64&posToBitMask(pos) > 0
@@ -53,6 +62,15 @@ func (bf64 BitField64) Get(pos int) bool {
 // Clear clears the bit at position pos
 func (bf64 BitField64) Clear(pos int) BitField64 {
 	return bf64 & ^posToBitMask(pos)
+}
+
+// ClearMul sets the bits at position pos
+func (bf64 BitField64) ClearMul(pos ...int) BitField64 {
+	ret := bf64
+	for _, p := range pos {
+		ret &= ^posToBitMask(p)
+	}
+	return ret
 }
 
 // Flip inverts the bit at position pos
@@ -145,4 +163,23 @@ func (bf64 BitField64) Shift(count int) BitField64 {
 		return bf64 >> -count
 	}
 	return bf64 << count
+}
+
+// Shift2 is same as Shift but it returns the discarded bits as well
+func (bf64 BitField64) Shift2(count int) (ret, discarded BitField64) {
+	if count == 0 {
+		return bf64, New()
+	}
+	const n = 64
+	if count > n || count < -n {
+		return BitField64(0), BitField64(0)
+	}
+	if count < 0 {
+		ret = bf64 >> -count
+		discarded = bf64 << (n + count)
+	} else {
+		ret = bf64 << count
+		discarded = bf64 >> (n - count)
+	}
+	return ret, discarded
 }
