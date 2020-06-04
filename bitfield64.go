@@ -183,3 +183,36 @@ func (bf64 BitField64) Shift2(count int) (ret, discarded BitField64) {
 	}
 	return ret, discarded
 }
+
+func (bf64 BitField64) toString(pretty bool) string {
+	const n = 64
+	lastOne := -1
+	b := make([]byte, n)
+	for i := 0; i < 64; i++ {
+		if bf64&(1<<uint64(i)) > 0 {
+			b[i] = '1'
+			lastOne = i
+		} else {
+			b[i] = '0'
+		}
+	}
+	if pretty && lastOne >= 0 {
+		return string(b[0 : lastOne+1])
+	}
+	return string(b)
+}
+
+// String returns the bit-representation of the bitfield
+// Unlike in number to binary conversion here everything is
+// reversed as position grows from 0 to 63, left to right
+// So e.g. New().Set(2) print
+// 0010000000000000000000000000000000000000000000000000000000000000
+func (bf64 BitField64) String() string {
+	return bf64.toString(false)
+}
+
+// StringPretty converts the bitfield to a string, but tailing zeros
+// are dropped. So e.g. New().Set(2) will print "001"
+func (bf64 BitField64) StringPretty() string {
+	return bf64.toString(true)
+}
