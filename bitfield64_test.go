@@ -1,15 +1,24 @@
 package bitfield64
 
 import (
+	"fmt"
 	"testing"
 )
 
 func TestPos(t *testing.T) {
-	got := []int{0, -1, -64, 3, 65}
-	wants := []uint64{1 << 0, 1 << 63, 1 << 0, 1 << 3, 1 << 1}
-	for i, p := range got {
-		if posToBitMask(p) != BitField64(wants[i]) {
-			t.Errorf("got %d, wants %d", p, wants[i])
+	tests := []struct {
+		in  int
+		out uint64
+	}{
+		{0, 1 << 0},
+		{-1, 1 << 63},
+		{-64, 1 << 0},
+		{3, 1 << 3},
+		{65, 1 << 1},
+	}
+	for _, tt := range tests {
+		if posToBitMask(tt.in) != BitField64(tt.out) {
+			t.Errorf("got %d, wants %d", tt.in, tt.out)
 		}
 	}
 }
@@ -29,6 +38,9 @@ func Test1(t *testing.T) {
 		t.Error("should be true")
 	}
 	bf2 := New().Set(3).Set(1).Clear(5).Or(New().Set(4))
+	if bf2.StringPretty() != "01011" {
+		t.Error("should be 01011")
+	}
 
 	if bf2.OnesCount() != 3 {
 		t.Error("should be 3")
@@ -43,8 +55,8 @@ func Test1(t *testing.T) {
 	if New().SetAll().ClearAll().OnesCount() != 0 {
 		t.Error("should be zero")
 	}
-	if New().Set(-63-64) != 2 {
-		t.Error("should be 2")
+	if New().Set(-63-64).StringPretty() != "01" {
+		t.Error("should be 01")
 	}
 
 	if New().Flip(3) != 8 {
@@ -174,4 +186,32 @@ func TestShift2(t *testing.T) {
 		t.Error("'a' and 'b should be 0")
 	}
 
+}
+
+func ExampleBitField64_SetMul() {
+	a := New().SetMul(2, 4)
+	fmt.Println(a.StringPretty())
+	// Output: 00101
+}
+
+func ExampleBitField64_Xor() {
+	a := New().SetMul(0, 3)
+	b := New().Set(1)
+	fmt.Println(a.Xor(b).StringPretty())
+	// Output: 1101
+}
+
+func ExampleBitField64_Flip() {
+	a := New().SetAll().Flip(0)
+	fmt.Println(a.String())
+	// Output: 0111111111111111111111111111111111111111111111111111111111111111
+}
+
+func ExampleBitField64_Shift() {
+	// SetAll(): all bits are 1
+	// Shift(3): 3 zeroes enter from left
+	// Left(5): takes first 3 zero bits and two 1s.
+	a := New().SetAll().Shift(3).Left(5)
+	fmt.Println(a.StringPretty())
+	// Output: 00011
 }
